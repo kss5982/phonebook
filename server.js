@@ -1,9 +1,7 @@
 import express, { request } from "express";
 import cors from "cors";
 import morgan from "morgan";
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 const app = express();
 app.use(express.json());
@@ -66,7 +64,7 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
-const PORT = import.meta.env.PORT || 3001;
+const PORT = process.env.VITE_PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
