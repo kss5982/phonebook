@@ -74,7 +74,6 @@ const App = () => {
     personService
       .getAll()
       .then(response => {
-        console.log(response.data)
         setPersons(response.data)
       })
   }, [])
