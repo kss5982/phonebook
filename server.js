@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan("tiny"));
+app.use(express.static("dist"));
 
 let persons = [
   { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -64,7 +65,7 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
-const PORT = process.env.VITE_PORT;
+const PORT = process.env.VITE_PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
