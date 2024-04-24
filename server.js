@@ -2,6 +2,10 @@ import express, { request } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import "dotenv/config";
+import mongoose from "mongoose";
+import Person from "./models/person.js";
+
+console.log(Person);
 
 const app = express();
 app.use(express.json());
@@ -21,7 +25,9 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  response.send(persons);
+  Person.find({}).then((people) => {
+    response.json(people);
+  });
 });
 
 app.get("/api/persons/:id", (request, response) => {
