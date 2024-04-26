@@ -1,0 +1,8 @@
+PUT http://localhost:3001/api/persons/662a0cdb1e41fa6253533401
+Content-Type: application/json
+
+{
+"name": "Barandu Sandhu",
+"number": "742-9212",
+"id": "7"
+}

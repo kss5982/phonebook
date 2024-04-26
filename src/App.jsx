@@ -108,7 +108,7 @@ const App = () => {
     event.preventDefault();
     const newPerson = {name: newName, number: newNumber};
     const check = checkName(newPerson);
-    if (check[0]) {
+    if (check[0] && newPerson.name && newPerson.number) {
       if (window.confirm(`${newPerson.name} is already added to the phonebook, replace the old number with a new one?`)) {
         personService
           .update(check[1], newPerson)
