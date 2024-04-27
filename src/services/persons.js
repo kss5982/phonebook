@@ -22,4 +22,3 @@ const deletePerson = (id) => {
 };
 
 export default { getAll, create, update, deletePerson };
-pdate, deletePerson };
