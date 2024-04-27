@@ -95,8 +95,8 @@ const App = () => {
       personService
         .deletePerson(person.id)
         .then(deletedItem => {
-          setPersons(persons.filter(person => person.id !== deletedItem.id));
-          setNotif(`${deletedItem.name} has been removed from the phone book!`);
+          setPersons(persons.filter(originalPerson => originalPerson.id !== person.id));
+          setNotif(`${person.name} has been removed from the phone book!`);
           setTimeout(() => {
             setNotif(null)
           }, 3000)
@@ -136,6 +136,13 @@ const App = () => {
           setNotif(`${newPerson.name} has been added to the phonebook!`);
           setTimeout(() => {
             setNotif(null)
+          }, 3000)
+        })
+        .catch(error => {
+          console.log(error.response.data.error)
+          setError(error.response.data.error)
+          setTimeout(() => {
+            setError(null)
           }, 3000)
         })
     }
