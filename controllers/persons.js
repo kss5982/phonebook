@@ -1,36 +1,26 @@
 import express from "express";
 import Person from "../models/person.js";
+import "express-async-errors";
 
 const personRouter = express.Router();
 
-personRouter.get("/", (request, response) => {
-  Person.find({}).then((people) => {
-    response.json(people);
-  });
+personRouter.get("/", async (request, response) => {
+  const persons = await Person.find({}).catch((error) => next(error));
+  response.json(persons);
 });
 
-personRouter.get("/:id", (request, response, next) => {
+personRouter.get("/:id", async (request, response, next) => {
   const { id } = request.params;
-  Person.findById(id)
-    .then((person) => {
-      if (person) {
-        response.json(person);
-      } else {
-        response.status(404).end();
-      }
-    })
-    .catch((error) => next(error));
+
+  const person = await Person.findById(id).catch((error) => next(error));
+  if (person) {
+    response.json(person);
+  } else {
+    response.status(404).end();
+  }
 });
 
-personRouter.get("/info", (request, response) => {
-  Person.find({}).then((people) => {
-    response.send(
-      `Phonebook has info for ${people.length} people<br/>${new Date()}`
-    );
-  });
-});
-
-personRouter.post("/", (request, response, next) => {
+personRouter.post("/", async (request, response, next) => {
   const { body } = request;
 
   const person = new Person({
@@ -38,35 +28,25 @@ personRouter.post("/", (request, response, next) => {
     number: body.number,
   });
 
-  person
-    .save()
-    .then((savedPerson) => {
-      response.json(savedPerson);
-    })
-    .catch((error) => next(error));
+  const savedPerson = await person.save().catch((error) => next(error));
+  response.json(savedPerson);
 });
 
-personRouter.put("/:id", (request, response, next) => {
+personRouter.put("/:id", async (request, response, next) => {
   const { name, number } = request.body;
 
-  Person.findByIdAndUpdate(
+  const updatedPerson = await Person.findByIdAndUpdate(
     request.params.id,
     { name, number },
     { new: true, runValidators: true, context: "query" }
-  )
-    .then((updatedPerson) => {
-      response.json(updatedPerson);
-    })
-    .catch((error) => next(error));
+  ).catch((error) => next(error));
+  response.json(updatedPerson);
 });
 
-personRouter.delete("/:id", (request, response, next) => {
+personRouter.delete("/:id", async (request, response, next) => {
   const { id } = request.params;
-  Person.findByIdAndDelete(id)
-    .then((result) => {
-      response.status(204).end();
-    })
-    .catch((error) => next(error));
+  await Person.findByIdAndDelete(id).catch((error) => next(error));
+  response.status(204).end();
 });
 
 export default personRouter;
