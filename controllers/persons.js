@@ -29,7 +29,7 @@ personRouter.post("/", async (request, response, next) => {
   });
 
   const savedPerson = await person.save().catch((error) => next(error));
-  response.json(savedPerson);
+  response.status(201).json(savedPerson);
 });
 
 personRouter.put("/:id", async (request, response, next) => {
