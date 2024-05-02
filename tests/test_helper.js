@@ -1,4 +1,5 @@
 import Person from "../models/person.js";
+import User from "../models/user.js";
 
 const initialPersons = [
   {
@@ -24,5 +25,10 @@ const personsInDb = async () => {
   return persons.map((person) => person.toJSON());
 };
 
-const helper = { initialPersons, nonExistingId, personsInDb };
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((u) => u.toJSON());
+};
+
+const helper = { initialPersons, nonExistingId, personsInDb, usersInDb };
 export default helper;

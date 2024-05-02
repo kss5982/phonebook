@@ -2,7 +2,7 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-"name": "Karan Sandhu",
-"number": "742-9212",
-"id": 7
+"name": "UserContact",
+"number": "00-0000000",
+"userId": "663343f6f479985ac8482bbf"
 }

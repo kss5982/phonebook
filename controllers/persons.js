@@ -1,6 +1,7 @@
 import express from "express";
 import Person from "../models/person.js";
 import "express-async-errors";
+import User from "../models/user.js";
 
 const personRouter = express.Router();
 
@@ -23,12 +24,16 @@ personRouter.get("/:id", async (request, response, next) => {
 personRouter.post("/", async (request, response, next) => {
   const { body } = request;
 
+  const user = await User.findById(body.userId);
   const person = new Person({
     name: body.name,
     number: body.number,
+    user: user.id,
   });
 
   const savedPerson = await person.save().catch((error) => next(error));
+  user.contact = user.contact.concat(savedPerson._id);
+  await user.save();
   response.status(201).json(savedPerson);
 });
 
