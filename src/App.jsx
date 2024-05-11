@@ -69,6 +69,8 @@ const App = () => {
   const [filterName, setFilterName] = useState('');
   const [notification, setNotif] = useState(null);
   const [error, setError] = useState(null);
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   
   useEffect(() => {
     personService
@@ -102,6 +104,11 @@ const App = () => {
           }, 3000)
       })
   }
+}
+
+const handleLogin = (event) => {
+  event.preventDefault()
+  console.log('logging in with', username, password)
 }
 
   const addContact = (event) => {
@@ -168,6 +175,27 @@ const App = () => {
       <Header title="Phonebook"/>
       <Notification message={notification} />
       <Error message={error} />
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+            <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+            <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button type="submit">login</button>
+      </form>
       <div>
         filter shown with <input value={filterName} onChange={handleFilter}/>
       </div>

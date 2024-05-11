@@ -2,6 +2,7 @@ import express from "express";
 import Person from "../models/person.js";
 import "express-async-errors";
 import User from "../models/user.js";
+import jwt from "jsonwebtoken";
 
 const personRouter = express.Router();
 
@@ -21,9 +22,23 @@ personRouter.get("/:id", async (request, response, next) => {
   }
 });
 
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+  return null;
+};
+
 personRouter.post("/", async (request, response, next) => {
   const { body } = request;
 
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "token invalid" });
+  }
+
+  console.log(request.body);
   const user = await User.findById(body.userId);
   const person = new Person({
     name: body.name,

@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import personRouter from "./controllers/persons.js";
 import usersRouter from "./controllers/users.js";
+import loginRouter from "./controllers/login.js";
 import middleware from "./utils/middleware.js";
 import morgan from "morgan";
 import logger from "./utils/logger.js";
@@ -29,6 +30,7 @@ app.use(middleware.requestLogger);
 
 app.use("/api/persons", personRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
